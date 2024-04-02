@@ -7,14 +7,14 @@ import json
 import base64
 from MonitorFiles import FileComparison
 # 连接 RabbitMQ 服务器
-credentials = pika.PlainCredentials('Client1', 'yyx18259338897')    # 设置为自己的用户名 Unique
+credentials = pika.PlainCredentials('Client3', 'yyx18259338897')    # 设置为自己的用户名 Unique
 connection = pika.BlockingConnection(pika.ConnectionParameters('103.40.13.95',43222,'/',credentials))
 channel = connection.channel()
 
 # 声明一个名为 'file_broadcast2' 的队列 客户端2(湖北专用) Unique
-channel.queue_declare(queue='file_broadcast1')
+channel.queue_declare(queue='file_broadcast3')
 # 文件保存的本地路径
-SAVE_FOLDER = 'C:/Users/yyx/Desktop/UploadFile'  # Unique
+SAVE_FOLDER = 'C:/Users/18931/Desktop/distributed_flies'  # Unique
 # 下载函数
 def download_file_from_server(url, filename):
     # 构建文件的完整本地路径
@@ -69,6 +69,7 @@ def filename_hash_receive(filename_hash_server):
         download_file_from_server(url, filename)
 
 
+
 # 回调函数，处理接收到的文件内容
 def callback(ch, method, properties, body):
     # 解析消息中的文件名和文件内容
@@ -105,7 +106,7 @@ def callback(ch, method, properties, body):
 
 
 # 监听队列，并注册回调函数
-channel.basic_consume(queue='file_broadcast1', on_message_callback=callback)    # Unique
+channel.basic_consume(queue='file_broadcast3', on_message_callback=callback)    # Unique
 
 print('Waiting for files...')
 
